@@ -39,6 +39,8 @@ TwoSum.prototype.add = function(number) {
     this.nums[number] = this.nums[number] ? this.nums[number] + 1 : 1; 
 };
 
+
+
 /**
  * Find if there exists any pair of numbers which sum is equal to the value. 
  * @param {number} value
