@@ -26,44 +26,62 @@
 // - Shoot an arrow at x = 2, bursting the balloons [1,2] and [2,3].
 // - Shoot an arrow at x = 4, bursting the balloons [3,4] and [4,5].
 
+ 
 
-# @param {Integer[][]} points
-# @return {Integer}
-def find_min_arrow_shots(points)
-    i = 0
-    arr = points
-    count = 0
-    while i < arr.length
-        overlap = arr[i]
-        j = i + 1
-        while j < arr.length
-            temp = arr[j]
-            if temp[1] < overlap[0] || temp[0] > overlap[1]
-                j += 1
-            else
-                if temp[1] > overlap[0] && temp[1] < overlap[1]
-                    if temp[0] <= overlap[0]
-                        overlap[1] = temp[1]
-                    else
-                        overlap = temp
-                    end
-                elsif temp[1] == overlap[0] && temp[1] < overlap[1]
-                    overlap = [temp[1], temp[1]]
-                elsif temp[0] < overlap[1] && temp[0] > overlap[0]
-                    if temp[1] >= overlap[1]
-                        overlap[0] = temp[0]
-                    else
-                        overlap = temp
-                    end
-                elsif temp[0] == overlap[1] && temp[0] > overlap[0]
-                    overlap[0] = temp[0]
-                    overlap[1] = temp[0]
-                end
-                arr.delete(temp)
-            end
-        end
-        count += 1
-        i += 1
-    end
-    return count
-end
+// # @param {Integer[][]} points
+// # @return {Integer}
+// def find_min_arrow_shots(points)
+//     i = 0
+//     arr = points
+//     count = 0
+//     while i < arr.length
+//         overlap = arr[i]
+//         j = i + 1
+//         while j < arr.length
+//             temp = arr[j]
+//             if temp[1] < overlap[0] || temp[0] > overlap[1]
+//                 j += 1
+//             else
+//                 if temp[1] > overlap[0] && temp[1] < overlap[1]
+//                     if temp[0] <= overlap[0]
+//                         overlap[1] = temp[1]
+//                     else
+//                         overlap = temp
+//                     end
+//                 elsif temp[1] == overlap[0] && temp[1] < overlap[1]
+//                     overlap = [temp[1], temp[1]]
+//                 elsif temp[0] < overlap[1] && temp[0] > overlap[0]
+//                     if temp[1] >= overlap[1]
+//                         overlap[0] = temp[0]
+//                     else
+//                         overlap = temp
+//                     end
+//                 elsif temp[0] == overlap[1] && temp[0] > overlap[0]
+//                     overlap[0] = temp[0]
+//                     overlap[1] = temp[0]
+//                 end
+//                 arr.delete(temp)
+//             end
+//         end
+//         count += 1
+//         i += 1
+//     end
+//     return count
+// end
+
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
+var findMinArrowShots = function(points) {
+    points.sort((a, b) => a[0] - b[0]);
+    let prev = null, count = 0;
+    
+    for(let [start, end] of points) {
+        if(prev == null || prev < start) {
+            count++;
+            prev = end;
+        } else prev = Math.min(prev, end);
+    }
+    return count;
+};
